@@ -8,7 +8,7 @@ export const ContactForm = ({ name, number, handleChange, handleSubmit }) => (
     </label>
     <label style={{ display: 'flex', flexDirection: 'column', maxWidth: '150px' }}>
       Tel:
-      <input type="tel" name="number" onChange={handleChange} required />
+      <input type="tel" name="number" value={number } onChange={handleChange} required />
     </label>
     <button type="submit" style={{ maxWidth: '150px' }}>
       Add contact
