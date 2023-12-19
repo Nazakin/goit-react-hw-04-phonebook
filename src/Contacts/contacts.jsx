@@ -10,7 +10,7 @@ export class Contacts extends React.Component {
     number: '',
     filter: '',
   };
-
+//
   handleChange = (e) => {
     const { value, name } = e.target;
     this.setState({
