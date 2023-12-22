@@ -1,8 +1,9 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
-import {ContactForm} from './ContactForm/ContactForm'
-import {ContactList} from './ContactList/ontactList'
+import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ontactList';
 import { Filter } from './Filter/Filter';
+
 export class App extends React.Component {
   state = {
     contacts: [],
@@ -10,7 +11,20 @@ export class App extends React.Component {
     number: '',
     filter: '',
   };
-//
+
+  componentDidMount() {
+    const storedContacts = localStorage.getItem('contacts');
+    if (storedContacts) {
+      this.setState({ contacts: JSON.parse(storedContacts) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   handleChange = (e) => {
     const { value, name } = e.target;
     this.setState({
@@ -29,6 +43,7 @@ export class App extends React.Component {
       alert(`${name} is already in contacts.`);
       return;
     }
+
     const newContact = {
       id: nanoid(),
       name,
@@ -48,6 +63,7 @@ export class App extends React.Component {
       filter: value,
     });
   };
+
   handleDeleteContact = (contactId) => {
     this.setState((prevState) => ({
       contacts: prevState.contacts.filter((contact) => contact.id !== contactId),
@@ -62,7 +78,7 @@ export class App extends React.Component {
     );
 
     return (
-        <div>
+      <div>
         <h1>Phonebook</h1>
         <ContactForm name={name} number={number} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
         <Filter filter={filter} handleFilterChange={this.handleFilterChange} />
@@ -71,7 +87,6 @@ export class App extends React.Component {
         ) : (
           <p>No contacts found</p>
         )}
-    
       </div>
     );
   }
